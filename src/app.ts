@@ -2,6 +2,7 @@ import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as mongoose from 'mongoose';
 import * as cookieParser from 'cookie-parser';
+import { listen } from 'socket.io';
 import Controller from './interfaces/controller.interface';
 import errorMiddleware from './middleware/error.middleware';
 // import * as cors from 'cors';
@@ -19,7 +20,11 @@ class App {
     }
 
     public listen() {
-        this.app.listen(process.env.PORT, () => {
+        const {
+            PORT,
+        } = process.env;
+
+        this.app.listen(PORT, () => {
             // tslint:disable-next-line:no-console
             console.log(`App listening on the port ${process.env.PORT}`);
         });

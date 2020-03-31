@@ -14,5 +14,5 @@ export default interface IPersona {
     contactoPersonal?: IContacto[];
     contactoEmergencia?: IContacto[];
     edad?: number;
-    nombreCompleto: string;
+    nombreCompleto?: string;
 }
