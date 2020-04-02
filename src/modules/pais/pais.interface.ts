@@ -1,4 +1,4 @@
 export default interface IPais {
-    id?: String;
-    nombre: String;
+    id?: string;
+    nombre: string;
 }

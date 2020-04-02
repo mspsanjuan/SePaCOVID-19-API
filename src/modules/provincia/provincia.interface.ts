@@ -1,7 +1,7 @@
 import IPais from '../pais/pais.interface';
 
 export interface IProvincia {
-    id?: String;
-    nombre: String;
+    id?: string;
+    nombre: string;
     pais: IPais;
 }

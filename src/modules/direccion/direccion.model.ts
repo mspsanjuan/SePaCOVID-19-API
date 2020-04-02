@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { LocalidadSchema } from '../localidad/localidad.schema';
+import { DepartamentoSchema } from '../departamento/departamento.schema';
 
 export const DireccionSchema = new Schema(
     {
@@ -25,8 +25,8 @@ export const DireccionSchema = new Schema(
             type: Number,
             required: true
         },
-        localidad: {
-            type: LocalidadSchema,
+        departamento: {
+            type: DepartamentoSchema,
             required: true
         },
     },

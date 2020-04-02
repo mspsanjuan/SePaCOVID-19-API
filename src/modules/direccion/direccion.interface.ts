@@ -1,11 +1,11 @@
 import IPais from '../pais/pais.interface';
-import ILocalidad from '../localidad/localidad.interface';
+import IDepartamento from '../departamento/departamento.interface';
 
 export default interface IDireccion {
     activo?: Boolean;
-    calle: String;
+    calle: string;
     numero: Number;
     orientacion: 'norte' | 'sur' | 'este' | 'oeste';
     codigoPostal: Number;
-    localidad: ILocalidad;
+    departamento: IDepartamento;
 }

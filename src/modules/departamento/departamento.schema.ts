@@ -1,8 +1,8 @@
 import { Schema, model, Document } from 'mongoose';
-import ILocalidad from './localidad.interface';
+import IDepartamento from './departamento.interface';
 import { ProvinciaSchema } from '../provincia/provincia.model';
 
-export const LocalidadSchema = new Schema(
+export const DepartamentoSchema = new Schema(
     {
         nombre: {
             type: String,
@@ -22,5 +22,5 @@ export const LocalidadSchema = new Schema(
     }
 );
 
-const Localidad = model<ILocalidad & Document>('localidad', LocalidadSchema, 'localidades');
-export default Localidad;
+const Departamento = model<IDepartamento & Document>('departamento', DepartamentoSchema, 'departamentos');
+export default Departamento;
