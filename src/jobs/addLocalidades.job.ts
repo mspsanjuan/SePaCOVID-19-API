@@ -87,49 +87,6 @@ const AddLocalidadesJob: JobFunctionType = async () => {
                 }
             }
         }
-        // A modo de prueba
-        writeFileSync(join('.', 'output.json'), JSON.stringify(filterData, null, 2));
-
-        // for (const value of data) {
-        //     const paisName = value.pais.toUpperCase();
-        //     const provName = value.provincia.toUpperCase();
-        //     const dptoName = value.departamento.toUpperCase();
-        //     let pais, provincia, departamento, localidad;
-        //     // Creamos el pais si es necesario
-        //     if (!filterData[paisName]) {
-        //         pais = await Pais.findOne({nombre: paisName});
-        //         if (!pais) {
-        //             pais = new Pais({nombre: paisName});
-        //             pais = await pais.save();
-        //         }
-        //         filterData[paisName] = {};
-        //     }
-        //     // Creamos la provincia si es necesario
-        //     if (!filterData[paisName][provName]) {
-        //         provincia = await Provincia.findOne({nombre: paisName, 'pais._id': pais.id});
-        //         if (!provincia) {
-        //             provincia = new Provincia({nombre: provName, pais});
-        //             provincia = await provincia.save();
-        //         }
-        //         filterData[paisName][provName] = {};
-        //     }
-        //     // Creamos el departamento si es necesario
-        //     if (!filterData[paisName][provName][dptoName]) {
-        //         departamento = await Departamento.findOne({nombre: dptoName, 'provincia._id': provincia.id});
-        //         if (!departamento) {
-        //             departamento = new Departamento({nombre: dptoName, provincia});
-        //             departamento = await departamento.save();
-        //         }
-        //         filterData[paisName][provName][dptoName] = [];
-        //     }
-        //     localidad = new Localidad({
-        //         nombre: value.nombre,
-        //         codigoPostal: value.codigoPostal,
-        //         departamento
-        //     });
-        //     localidad = await localidad.save();
-        //     filterData[paisName][provName][dptoName].push(localidad.nombre);
-        // }
 
     } catch (err) {
         // tslint:disable-next-line: no-console
