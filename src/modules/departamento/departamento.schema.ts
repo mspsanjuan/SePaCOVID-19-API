@@ -8,10 +8,6 @@ export const DepartamentoSchema = new Schema(
             type: String,
             required: true
         },
-        codigo: {
-            type: String,
-            required: true,
-        },
         provincia: {
             type: ProvinciaSchema,
             required: true

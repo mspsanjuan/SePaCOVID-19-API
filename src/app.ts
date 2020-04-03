@@ -2,9 +2,10 @@ import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as mongoose from 'mongoose';
 import * as cookieParser from 'cookie-parser';
-import { listen } from 'socket.io';
 import Controller from './interfaces/controller.interface';
 import errorMiddleware from './middleware/error.middleware';
+import connections from './connections';
+import configuration from '../config.private';
 // import * as cors from 'cors';
 
 class App {
@@ -13,20 +14,16 @@ class App {
     constructor(controllers: Controller[]) {
         this.app = express();
 
-        this.connectToTheDatabase();
+        connections.initializeDataBase();
         this.initializeMiddlewares();
         this.initializeControllers(controllers);
         this.initializeErrorHandling();
     }
 
     public listen() {
-        const {
-            PORT,
-        } = process.env;
-
-        this.app.listen(PORT, () => {
+        this.app.listen(configuration.ports.main, () => {
             // tslint:disable-next-line:no-console
-            console.log(`App listening on the port ${process.env.PORT}`);
+            console.log(`App listening on the port ${configuration.ports.main}`);
         });
     }
 
@@ -48,31 +45,6 @@ class App {
         controllers.forEach((controller) => {
             this.app.use('/api', controller.router);
         });
-    }
-
-    private connectToTheDatabase() {
-        const {
-            MONGO_USER,
-            MONGO_PASSWORD,
-            MONGO_PATH,
-        } = process.env;
-
-        mongoose.plugin(schema => {
-            schema.set('toJSON', {
-                virtuals: true,
-                versionKey: false
-            });
-        });
-
-        const ops: mongoose.ConnectionOptions = {
-            reconnectTries: Number.MAX_VALUE,
-            reconnectInterval: 500,
-        };
-        if (MONGO_USER && MONGO_PASSWORD) {
-            mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`, ops);
-        } else {
-            mongoose.connect(`mongodb://${MONGO_PATH}`, ops);
-        }
     }
 }
 

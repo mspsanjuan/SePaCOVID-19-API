@@ -5,11 +5,12 @@ import WrongAuthenticationTokenException from '../exceptions/WrongAuthentication
 import DataStoredInToken from '../interfaces/dataInStoredToken.interface';
 import RequestWithUser from '../interfaces/requestWithUser.interface';
 import User from '../modules/user/user.model';
+import configuration from '../../config.private';
 
 async function authMiddleware(request: RequestWithUser, response: Response, next: NextFunction) {
     const cookies = request.cookies;
     if (cookies && cookies.Authorization) {
-        const secret = process.env.JWT_SECRET;
+        const secret = configuration.jwt.secret;
         try {
             const verificationResponse = jwt.verify(cookies.Authorization, secret) as DataStoredInToken;
             const id = verificationResponse.id;
