@@ -11,7 +11,7 @@ export interface UserDocument extends Document {
 
 export const UserSchema = new Schema<UserDocument>(
     {
-        email: {
+        username: {
             type: String,
             required: true
         },
@@ -21,7 +21,7 @@ export const UserSchema = new Schema<UserDocument>(
         },
         personalData: {
             type: PersonaSchema,
-            required: true
+            required: false
         },
         permissions: [String],
         lastLogin: Date,
@@ -35,7 +35,7 @@ export const UserSchema = new Schema<UserDocument>(
 UserSchema.methods.basicData = function () {
     return {
         id: this._id,
-        email: this.email,
+        username: this.username,
         personalData: this.personalData.basicData(),
     };
 };

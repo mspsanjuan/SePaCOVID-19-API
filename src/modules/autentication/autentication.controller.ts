@@ -39,8 +39,8 @@ class AuthenticationController implements Controller {
         userData.permissions = undefined;
         // Buscamos al usuario por su nick
         try {
-            if (await User.findOne({ email: userData.email })) {
-                next(new HttpException(400, `El email ${userData.email} ya se encuentra registrado`));
+            if (await User.findOne({ username: userData.username })) {
+                next(new HttpException(400, `El usuario '${userData.username}' ya se encuentra registrado`));
             } else {
                 // Creamos a la persona
                 let persona = new Persona(userData.personalData);
@@ -66,7 +66,7 @@ class AuthenticationController implements Controller {
 
     private loggingIn = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
         const logInData: ILogin = request.body;
-        const user = await User.findOne({ email: logInData.email });
+        const user = await User.findOne({ username: logInData.username });
         if (user) {
             const isPasswordMatching = await bcrypt.compare(logInData.password, user.password);
             if (isPasswordMatching) {
