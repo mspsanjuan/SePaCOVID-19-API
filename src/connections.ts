@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import configuration from '../config.private';
+import { CONNECTIONS } from '../config.private';
 
 export class Connections {
     /**
@@ -12,7 +12,7 @@ export class Connections {
                 versionKey: false
             });
         });
-        mongoose.connect(configuration.connections.main.url, configuration.connections.main.options);
+        mongoose.connect(CONNECTIONS.main.url, CONNECTIONS.main.options);
     }
 }
 

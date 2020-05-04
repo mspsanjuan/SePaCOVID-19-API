@@ -5,7 +5,7 @@ import * as cookieParser from 'cookie-parser';
 import Controller from './interfaces/controller.interface';
 import errorMiddleware from './middleware/error.middleware';
 import connections from './connections';
-import configuration from '../config.private';
+import { PORTS } from '../config.private';
 // import * as cors from 'cors';
 
 class App {
@@ -21,9 +21,9 @@ class App {
     }
 
     public listen() {
-        this.app.listen(configuration.ports.main, () => {
+        this.app.listen(PORTS.main, () => {
             // tslint:disable-next-line:no-console
-            console.log(`App listening on the port ${configuration.ports.main}`);
+            console.log(`API corriendo en 127.0.0.1/${PORTS.main}`);
         });
     }
 

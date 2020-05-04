@@ -1,0 +1,6 @@
+- Reacondicionar la api para la nueva version ✅
+- Buscar paciente atraves de DNI Y Sexo
+- Buscar profesional atraves de Nombre, Apellido y DNI
+- Crear agenda del dia posterior
+- Asignar el bloque correspondiente segun el algoritmo o el parametro explicito
+- Guardar los datos de autodiagnostico

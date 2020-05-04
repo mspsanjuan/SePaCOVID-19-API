@@ -3,7 +3,6 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
 import User from '../user/user.model';
-import Persona from '../persona/persona.model';
 
 import IUser from '../user/user.interface';
 import ILogin from './autentication.interface';
@@ -16,7 +15,7 @@ import HttpException from '../../exceptions/HttpException';
 import WrongCredentialsException from '../../exceptions/WrongCredentialsException';
 
 import authMiddleware from '../../middleware/auth.middleware';
-import configuration from '../../../config.private';
+import { JWT } from '../../../config.private';
 
 class AuthenticationController implements Controller {
     public path = '/auth';
@@ -42,11 +41,6 @@ class AuthenticationController implements Controller {
             if (await User.findOne({ username: userData.username })) {
                 next(new HttpException(400, `El usuario '${userData.username}' ya se encuentra registrado`));
             } else {
-                // Creamos a la persona
-                let persona = new Persona(userData.personalData);
-                persona = await persona.save();
-                // Reemplazamos los datos de la persona
-                userData.personalData = persona;
                 // Hasheamos la contraseña
                 const hashedPassword = await bcrypt.hash(userData.password, 10);
                 userData.password = hashedPassword;
@@ -96,8 +90,8 @@ class AuthenticationController implements Controller {
     }
 
     private createToken(user: IUser): TokenData {
-        const expiresIn = 24 * 60 * 60; // Expira en un dia
-        const secret = configuration.jwt.secret;
+        const expiresIn = 0; // 24 * 60 * 60; // Expira en un dia
+        const secret = JWT;
         const dataStoredInToken: DataStoredInToken = {
             id: user.id,
         };
