@@ -10,12 +10,7 @@ export interface IPacienteResponse {
 export class PacienteService extends HttpService {
     protected baseUrl = 'core/mpi/pacientes';
 
-    public async get(params: {
-        nombre: string,
-        apellido: string,
-        documento: string,
-        sexo: 'masculino' | 'femenino'
-    }): Promise<IPacienteResponse> {
+    public async get(params): Promise<IPacienteResponse> {
         const res: IPacienteResponse = await this._get('', {type: 'simplequery', ...params});
         return res;
     }

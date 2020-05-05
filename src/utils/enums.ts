@@ -1,3 +1,15 @@
+export enum Sexo {
+    'femenino',
+    'masculino',
+    'otro'
+}
+
+export enum Genero {
+    'femenino',
+    'masculino',
+    'otro'
+}
+
 export enum EstadoCivil {
     'casado',
     'separado',
@@ -5,4 +17,10 @@ export enum EstadoCivil {
     'viudo',
     'soltero',
     'otro'
+}
+
+export enum TipoComunicacion {
+    'Teléfono Fijo',
+    'Teléfono Celular',
+    'Email'
 }
