@@ -78,7 +78,7 @@
             "check-preblock"
         ],
         "object-literal-key-quotes": [
-            true,
+            false,
             "as-needed"
         ],
         "no-unnecessary-callback-wrapper": true,
