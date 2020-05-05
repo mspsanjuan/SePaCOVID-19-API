@@ -1,5 +1,5 @@
 import HttpService from './http.service';
-import { IPaciente } from '../interfaces/paciente.interface';
+import IPaciente from '../interfaces/paciente.interface';
 
 export interface IPacienteResponse {
     code: number;

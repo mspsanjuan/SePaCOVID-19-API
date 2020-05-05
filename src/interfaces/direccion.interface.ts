@@ -1,6 +1,6 @@
-import { IUbicacion } from './ubicacion.interface';
+import IUbicacion from './ubicacion.interface';
 
-export interface IDireccion {
+export default interface IDireccion {
     valor: String;
     codigoPostal: String;
     ubicacion: IUbicacion;

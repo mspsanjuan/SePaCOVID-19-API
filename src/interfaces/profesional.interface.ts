@@ -1,15 +1,15 @@
-import { IUbicacion } from './ubicacion.interface';
+import IUbicacion from './ubicacion.interface';
 import { Sexo, Genero, TipoComunicacion, EstadoCivil } from '../utils/enums';
 
-export interface IProfesional {
-    id: String;
-    documento: String;
+export default interface IProfesional {
+    id: string;
+    documento: string;
     activo: Boolean;
-    nombre: String;
-    apellido: String;
+    nombre: string;
+    apellido: string;
     contacto: [{
         tipo: TipoComunicacion,
-        valor: String,
+        valor: string,
         ranking: Number, // Specify preferred order of use (1 = highest) // Podemos usar el rank para guardar un historico de puntos de contacto (le restamos valor si no es actual???)
         ultimaActualizacion: Date,
         activo: Boolean
@@ -19,8 +19,8 @@ export interface IProfesional {
     fechaNacimiento: Date; // Fecha Nacimiento
     fechaFallecimiento: Date;
     direccion: [{
-        valor: String,
-        codigoPostal: String,
+        valor: string,
+        codigoPostal: string,
         ubicacion: IUbicacion,
         ranking: Number,
         geoReferencia: {
@@ -31,15 +31,15 @@ export interface IProfesional {
         activo: Boolean
     }];
     estadoCivil: EstadoCivil;
-    foto: String;
-    rol: String; // Ejemplo Jefe de Terapia intensiva
+    foto: string;
+    rol: string; // Ejemplo Jefe de Terapia intensiva
     especialidad: [{ // El listado de sus especialidades
         id: string,
-        nombre: String
+        nombre: string
     }];
     matriculas: [{
         numero: Number,
-        descripcion: String,
+        descripcion: string,
         fechaInicio: Date,
         fechaVencimiento: Date,
         activo: Boolean

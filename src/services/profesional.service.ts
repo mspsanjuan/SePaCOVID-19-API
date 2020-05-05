@@ -1,5 +1,5 @@
 import HttpService from './http.service';
-import { IProfesional } from '../interfaces/profesional.interface';
+import IProfesional from '../interfaces/profesional.interface';
 
 export interface IProfesionalResponse {
     code: number;

@@ -1,9 +1,9 @@
-import { IContacto } from './contacto.interface';
-import { IDireccion } from './direccion.interface';
+import IContacto from './contacto.interface';
+import IDireccion from './direccion.interface';
+import IPacienteRelacion from './paciente-relacion.interface';
 import { EstadoCivil } from '../utils/enums';
-import { IPacienteRelacion } from './paciente-relacion.interface';
 
-export interface IPaciente {
+export default interface IPaciente {
     id: string;
     documento: string;
     cuil: string;

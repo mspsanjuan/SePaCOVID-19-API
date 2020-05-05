@@ -1,4 +1,4 @@
-export interface IUbicacion {
+export default interface IUbicacion {
     barrio: {
         id: String,
         nombre: String

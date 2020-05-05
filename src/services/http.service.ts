@@ -21,6 +21,58 @@ export default abstract class HttpService {
             method: 'get',
             headers: {
                 'Authorization': API_TOKEN.ANDES,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        });
+        // Intentamos obtener la data en forma de JSON
+        let resData;
+        try {
+            resData = await res.json();
+        } catch (err) {
+            // No pudo convertir a JSON lo devuelto
+        }
+
+        return {
+            code: res.status,
+            text: res.statusText,
+            data: resData,
+        };
+    }
+
+    protected async _post(route = '', body?: any): Promise<IHttpResponse> {
+        const url = new URL(route, `${API_URL.ANDES}${this.baseUrl}`);
+        const res = await fetch(url.href, {
+            method: 'post',
+            body: JSON.stringify(body),
+            headers: {
+                'Authorization': API_TOKEN.ANDES,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        });
+        // Intentamos obtener la data en forma de JSON
+        let resData;
+        try {
+            resData = await res.json();
+        } catch (err) {
+            // No pudo convertir a JSON lo devuelto
+        }
+
+        return {
+            code: res.status,
+            text: res.statusText,
+            data: resData,
+        };
+    }
+
+    protected async _put(route = '', body?: any): Promise<IHttpResponse> {
+        const url = new URL(route, `${API_URL.ANDES}${this.baseUrl}`);
+        const res = await fetch(url.href, {
+            method: 'put',
+            body,
+            headers: {
+                'Authorization': API_TOKEN.ANDES,
                 'Content-Type': 'application/json',
             },
         });

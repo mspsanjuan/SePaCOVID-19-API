@@ -1,4 +1,4 @@
-export interface IContacto {
+export default interface IContacto {
     tipo: any;
     valor: string;
     ranking: number;

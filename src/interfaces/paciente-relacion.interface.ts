@@ -1,4 +1,4 @@
-export interface IPacienteRelacion {
+export default interface IPacienteRelacion {
     relacion: {
         id: string,
         nombre: string,
