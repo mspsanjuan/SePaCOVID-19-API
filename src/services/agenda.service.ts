@@ -14,7 +14,7 @@ export interface IPostAgendaResponse {
 }
 
 export class AgendaService extends HttpService {
-    protected baseUrl = 'modules/turnos/agenda';
+    protected baseUrl = 'modules/turnos/agenda/';
 
     public async get(fechaDesde: Date, fechaHasta: Date, idProfesional: string): Promise<IGetAgendaResponse> {
         const res: IGetAgendaResponse = await this._get('', {
@@ -27,6 +27,14 @@ export class AgendaService extends HttpService {
 
     public async post(agenda: IAgenda) {
         const res: IPostAgendaResponse = await this._post('', agenda);
+        return res;
+    }
+
+    public async patch(agenda: IAgenda, op: 'publicada', estado: 'publicada') {
+        const res: IPostAgendaResponse = await this._patch(agenda.id, {
+            op,
+            estado,
+        });
         return res;
     }
 }

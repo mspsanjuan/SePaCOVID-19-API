@@ -2,5 +2,7 @@
 - Buscar paciente atraves de DNI Y Sexo ✅
 - Buscar profesional atraves de Nombre, Apellido y DNI ✅
 - Crear agenda del dia posterior ✅
-- Asignar el bloque correspondiente segun el algoritmo o el parametro explicito
+- Arreglar creacion de agenda por bloques ✅
+- Asignar paciente a la agenda correspondiente ✅
+- Crear paciente en caso de que no exista
 - Guardar los datos de autodiagnostico

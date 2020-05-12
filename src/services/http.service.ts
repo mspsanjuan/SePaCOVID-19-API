@@ -70,7 +70,32 @@ export default abstract class HttpService {
         const url = new URL(route, `${API_URL.ANDES}${this.baseUrl}`);
         const res = await fetch(url.href, {
             method: 'put',
-            body,
+            body: JSON.stringify(body),
+            headers: {
+                'Authorization': API_TOKEN.ANDES,
+                'Content-Type': 'application/json',
+            },
+        });
+        // Intentamos obtener la data en forma de JSON
+        let resData;
+        try {
+            resData = await res.json();
+        } catch (err) {
+            // No pudo convertir a JSON lo devuelto
+        }
+
+        return {
+            code: res.status,
+            text: res.statusText,
+            data: resData,
+        };
+    }
+
+    protected async _patch(route = '', body?: any): Promise<IHttpResponse> {
+        const url = new URL(route, `${API_URL.ANDES}${this.baseUrl}`);
+        const res = await fetch(url.href, {
+            method: 'patch',
+            body: JSON.stringify(body),
             headers: {
                 'Authorization': API_TOKEN.ANDES,
                 'Content-Type': 'application/json',
