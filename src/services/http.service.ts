@@ -1,16 +1,16 @@
 import fetch from 'node-fetch';
 import { API_URL, API_TOKEN } from '../../config.private';
 
-export interface IHttpResponse {
+export interface IHttpResponse<T> {
     code: number;
     text: string;
-    data?: any;
+    data?: T;
 }
 
 export default abstract class HttpService {
     protected abstract baseUrl: string;
 
-    protected async _get(route = '', params?: {[key: string]: string}): Promise<IHttpResponse> {
+    protected async _get<T>(route = '', params?: {[key: string]: string}): Promise<IHttpResponse<T>> {
         const url = new URL(route, `${API_URL.ANDES}${this.baseUrl}`);
         if (params) {
             for (const key in params) {
@@ -40,7 +40,7 @@ export default abstract class HttpService {
         };
     }
 
-    protected async _post(route = '', body?: any): Promise<IHttpResponse> {
+    protected async _post<T>(route = '', body?: any): Promise<IHttpResponse<T>> {
         const url = new URL(route, `${API_URL.ANDES}${this.baseUrl}`);
         const res = await fetch(url.href, {
             method: 'post',
@@ -66,7 +66,7 @@ export default abstract class HttpService {
         };
     }
 
-    protected async _put(route = '', body?: any): Promise<IHttpResponse> {
+    protected async _put<T>(route = '', body?: any): Promise<IHttpResponse<T>> {
         const url = new URL(route, `${API_URL.ANDES}${this.baseUrl}`);
         const res = await fetch(url.href, {
             method: 'put',
@@ -91,7 +91,7 @@ export default abstract class HttpService {
         };
     }
 
-    protected async _patch(route = '', body?: any): Promise<IHttpResponse> {
+    protected async _patch<T>(route = '', body?: any): Promise<IHttpResponse<T>> {
         const url = new URL(route, `${API_URL.ANDES}${this.baseUrl}`);
         const res = await fetch(url.href, {
             method: 'patch',

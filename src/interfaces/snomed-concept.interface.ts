@@ -1,0 +1,9 @@
+export default interface ISnomedConcept {
+    id?: string;
+    conceptId: string;
+    term: string;
+    fsn: string;
+    semanticTag: string;
+    refsetIds?: string[];
+    noNominalizada?: boolean;
+}

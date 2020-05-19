@@ -1,23 +1,11 @@
 import HttpService from './http.service';
 import IAgenda from '../interfaces/agenda.interface';
 
-export interface IGetAgendaResponse {
-    code: number;
-    text: string;
-    data?: IAgenda[];
-}
-
-export interface IPostAgendaResponse {
-    code: number;
-    text: string;
-    data?: IAgenda;
-}
-
 export class AgendaService extends HttpService {
     protected baseUrl = 'modules/turnos/agenda/';
 
-    public async get(fechaDesde: Date, fechaHasta: Date, idProfesional: string): Promise<IGetAgendaResponse> {
-        const res: IGetAgendaResponse = await this._get('', {
+    public async get(fechaDesde: Date, fechaHasta: Date, idProfesional: string) {
+        const res = await this._get<IAgenda[]>('', {
             fechaDesde: fechaDesde.toString(),
             fechaHasta: fechaHasta.toString(),
             idProfesional,
@@ -26,12 +14,12 @@ export class AgendaService extends HttpService {
     }
 
     public async post(agenda: IAgenda) {
-        const res: IPostAgendaResponse = await this._post('', agenda);
+        const res = await this._post<IAgenda>('', agenda);
         return res;
     }
 
     public async patch(agenda: IAgenda, op: 'publicada', estado: 'publicada') {
-        const res: IPostAgendaResponse = await this._patch(agenda.id, {
+        const res = await this._patch<IAgenda>(agenda.id, {
             op,
             estado,
         });

@@ -6,12 +6,16 @@ import IAgenda from '../../interfaces/agenda.interface';
 import IProfesional from '../../interfaces/profesional.interface';
 import IBloque from '../../interfaces/bloque.interface';
 import ITipoPrestacion from '../../interfaces/tipo-prestacion.interface';
+import IPrestacionRegistro from '../../interfaces/prestacion-registro.interface';
+import ISeguimientoPaciente from '../../interfaces/seguimiento-paciente.interface';
+import IPaciente from '../../interfaces/paciente.interface';
 
 import HttpException from '../../exceptions/HttpException';
 import pacienteService from '../../services/pacientes.service';
 import profesionalService from '../../services/profesional.service';
 import agendaService from '../../services/agenda.service';
 import turnoService from '../../services/turno.service';
+import seguimientoPacienteService from '../../services/seguimiento-paciente.service';
 
 export default class AutoDiagnostico implements Controller {
     public path = '/autodiagnostico';
@@ -48,6 +52,72 @@ export default class AutoDiagnostico implements Controller {
         term: 'Consulta de enfermería',
     };
 
+    private _registroLlevadoPorPaciente: IPrestacionRegistro = {
+        registros: [],
+        elementoRUP: '5e8cb7ebfb2be91325677e58',
+        nombre: 'hallazgo informado por el sujeto o el que relata la historia',
+        concepto: {
+            refsetIds: [
+                '900000000000497000'
+            ],
+            fsn: 'hallazgo informado por el sujeto o el que relata la historia (hallazgo)',
+            semanticTag: 'hallazgo',
+            conceptId: '418799008',
+            term: 'hallazgo informado por el sujeto o el que relata la historia'
+        },
+        valor: []
+    };
+
+    private _mapRegistros: {[key: string]: {type: 'number' | 'array', registro: IPrestacionRegistro, valorPorDefecto?: any }} = {
+        temperatura: {
+            type: 'number',
+            registro: {
+                nombre: 'temperatura corporal',
+                elementoRUP: '594a80a3884431c25d9a025e',
+                registros: [],
+                concepto: {
+                    refsetIds: [
+                        '900000000000497000',
+                        '900000000000498005'
+                    ],
+                    fsn: 'temperatura corporal (entidad observable)',
+                    semanticTag: 'entidad observable',
+                    conceptId: '386725007',
+                    term: 'temperatura corporal'
+                },
+                valor: null
+            },
+        },
+        diarrea: {
+            type: 'array',
+            registro: this._registroLlevadoPorPaciente,
+            valorPorDefecto: {
+                id: '62315008',
+                nombre: 'diarrea',
+                concepto: {
+                    fsn: 'diarrea (hallazgo)',
+                    term: 'diarrea',
+                    conceptId: '62315008',
+                    semanticTag: 'hallazgo'
+                }
+            }
+        },
+        dolorGarganta: {
+            type: 'array',
+            registro: this._registroLlevadoPorPaciente,
+            valorPorDefecto: {
+                id: '162397003',
+                nombre: 'dolor de garganta',
+                concepto: {
+                    fsn: 'dolor de garganta (hallazgo)',
+                    term: 'dolor de garganta',
+                    conceptId: '162397003',
+                    semanticTag: 'hallazgo'
+                }
+            }
+        }
+    };
+
     constructor() {
         this.initializeRoutes();
     }
@@ -76,6 +146,10 @@ export default class AutoDiagnostico implements Controller {
             } else if (resProfesional.data.length > 1) {
                 return next(new HttpException(400, `Existen ${resProfesional.data.length} profesionales con los parametros ingresados`));
             }
+            // Creamos la coleccion de seguimiento de paciente
+            const resSeguimientoPaciente = await seguimientoPacienteService.post(
+                this.crearSeguimientoPaciente(request.body.registros, resPaciente.data[0], resProfesional.data[0])
+            );
             // Parametros para definir prioridad
             const prioridadIndex = request.body.prioridad || 0;
             // Busqueda de una agenda
@@ -90,11 +164,28 @@ export default class AutoDiagnostico implements Controller {
             }
             // Asignacion de paciente a la agenda
             const resTurno = await turnoService.patch(resAgenda.data[0], resPaciente.data[0], this._tipoPrestacion);
-            console.log('TURNO: ', resTurno);
+
             response.send({
-                paciente: resPaciente.data,
-                profesional: resProfesional.data,
-                agenda: resAgenda.data,
+                paciente: {
+                    status: resPaciente.code,
+                    data: resPaciente.data
+                },
+                profesional: {
+                    status: resProfesional.code,
+                    data: resProfesional.data,
+                },
+                agenda: {
+                    status: resAgenda.code,
+                    data: resAgenda.data,
+                },
+                turno: {
+                    status: resTurno.code,
+                    data: resTurno.data,
+                },
+                seguimientoPaciente: {
+                    status: resSeguimientoPaciente.code,
+                    data: resSeguimientoPaciente.data
+                }
             });
         } catch (err) {
             next(new HttpException(400, err));
@@ -152,5 +243,47 @@ export default class AutoDiagnostico implements Controller {
             }
         }
         return null;
+    }
+
+    private crearSeguimientoPaciente(bodyRegistros: any, paciente: IPaciente, profesional: IProfesional): ISeguimientoPaciente {
+        const seguimientoPaciente: ISeguimientoPaciente = {
+            paciente,
+            profesional,
+            registro: {
+                nombre: 'registro llevado por el paciente',
+                concepto: {
+                    refsetIds: [
+                        '900000000000497000'
+                    ],
+                    fsn: 'registro llevado por el paciente (elemento de registro)',
+                    semanticTag: 'elemento de registro',
+                    conceptId: '408403008',
+                    term: 'registro llevado por el paciente'
+                },
+                elementoRUP: '5e8c926ffb2be91325677e56',
+                valor: null,
+                registros: []
+            }
+        };
+
+        for (let key in bodyRegistros) {
+            if (bodyRegistros[key] && this._mapRegistros[key]) {
+                // agregamos el registro si este no está agregado
+                let foundIndex = seguimientoPaciente.registro.registros.findIndex(x => x.concepto.conceptId === this._mapRegistros[key].registro.concepto.conceptId);
+                if (foundIndex < 0) {
+                    foundIndex = seguimientoPaciente.registro.registros.push(this._mapRegistros[key].registro) - 1;
+                }
+                switch (this._mapRegistros[key].type) {
+                    case 'array':
+                        seguimientoPaciente.registro.registros[foundIndex].valor.push(this._mapRegistros[key].valorPorDefecto);
+                        break;
+                    case 'number':
+                        seguimientoPaciente.registro.registros[foundIndex].valor = bodyRegistros[key];
+                        break;
+                }
+            }
+        }
+
+        return seguimientoPaciente;
     }
 }
