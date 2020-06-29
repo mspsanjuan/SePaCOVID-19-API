@@ -81,3 +81,4 @@ tests/baselines/reference/dt
 TEST-results.xml
 package-lock.json
 config.private.ts
+dist/
