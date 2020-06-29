@@ -23,7 +23,7 @@ class App {
     public listen() {
         this.app.listen(PORTS.main, () => {
             // tslint:disable-next-line:no-console
-            console.log(`API corriendo en 127.0.0.1/${PORTS.main}`);
+            console.log(`\x1b[45mAPI corriendo en http://127.0.0.1/${PORTS.main}\x1b[0m`);
         });
     }
 
@@ -43,7 +43,7 @@ class App {
 
     private initializeControllers(controllers: Controller[]) {
         controllers.forEach((controller) => {
-            this.app.use('/api', controller.router);
+            this.app.use('/sepacovid', controller.router);
         });
     }
 }

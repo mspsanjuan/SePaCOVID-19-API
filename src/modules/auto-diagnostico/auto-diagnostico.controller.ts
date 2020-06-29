@@ -135,7 +135,44 @@ export default class AutoDiagnostico implements Controller {
             const resPaciente = await pacienteService.get(pacienteQuery);
             if (!resPaciente.data || resPaciente.data.length === 0) {
                 // Creacion de un nuevo paciente
-                return next(new HttpException(400, 'El paciente no existe'));
+                const resPacienteValidar = await pacienteService.validar({
+                    activo: true,
+                    alias: '',
+                    apellido: '',
+                    claveBlocking: null,
+                    contacto: [],
+                    cuil: null,
+                    direccion: [],
+                    documento: pacienteQuery.documento,
+                    edad: null,
+                    edadReal: null,
+                    entidadesValidadoras: [''],
+                    estado: 'temporal',
+                    fechaFallecimiento: null,
+                    fechaNacimiento: null,
+                    financiador: null,
+                    foto: null,
+                    genero: pacienteQuery.sexo,
+                    id: null,
+                    identificadores: null,
+                    nombre: '',
+                    nombreCompleto: '',
+                    notaError: '',
+                    numeroIdentificacion: '',
+                    relaciones: null,
+                    reportarError: false,
+                    scan: null,
+                    sexo: pacienteQuery.sexo,
+                    tipoIdentificacion: '',
+                    estadoCivil: null,
+                });
+                if (!resPacienteValidar.data || !resPacienteValidar.data.validado) {
+                    return next(new HttpException(400, 'El paciente no pudo ser validado'));
+                } else {
+                    const resPacienteNuevo = await pacienteService.post(resPacienteValidar.data.paciente);
+                    resPaciente.data.push(resPacienteNuevo.data);
+                    resPaciente.code = resPacienteNuevo.code;
+                }
             } else if (resPaciente.data.length > 1) {
                 return next(new HttpException(400, `Existen ${resPaciente.data.length} pacientes con los parametros ingresados`));
             }

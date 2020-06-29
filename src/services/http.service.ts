@@ -17,6 +17,7 @@ export default abstract class HttpService {
                 url.searchParams.append(key, params[key]);
             }
         }
+        console.log('[GET]: ', url.href);
         const res = await fetch(url.href, {
             method: 'get',
             headers: {
@@ -42,6 +43,7 @@ export default abstract class HttpService {
 
     protected async _post<T>(route = '', body?: any): Promise<IHttpResponse<T>> {
         const url = new URL(route, `${API_URL.ANDES}${this.baseUrl}`);
+        console.log('[POST]: ', url.href);
         const res = await fetch(url.href, {
             method: 'post',
             body: JSON.stringify(body),
@@ -68,6 +70,7 @@ export default abstract class HttpService {
 
     protected async _put<T>(route = '', body?: any): Promise<IHttpResponse<T>> {
         const url = new URL(route, `${API_URL.ANDES}${this.baseUrl}`);
+        console.log('[PUT]: ', url.href);
         const res = await fetch(url.href, {
             method: 'put',
             body: JSON.stringify(body),
@@ -93,6 +96,7 @@ export default abstract class HttpService {
 
     protected async _patch<T>(route = '', body?: any): Promise<IHttpResponse<T>> {
         const url = new URL(route, `${API_URL.ANDES}${this.baseUrl}`);
+        console.log('[PATCH]: ', url.href);
         const res = await fetch(url.href, {
             method: 'patch',
             body: JSON.stringify(body),
