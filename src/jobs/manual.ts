@@ -1,5 +1,5 @@
 import * as path from 'path';
-import connections from '../connections';
+// import connections from '../connections';
 import jobs from '../jobs';
 
 const done = () => {
@@ -21,7 +21,7 @@ const run = async () => {
     // tslint:disable-next-line: no-console
     console.log(`\x1b[44m=> Ejecutando Job ${jobName}\x1b[0m`);
     // Inicializamos la base de datos
-    connections.initializeDataBase();
+    // connections.initializeDataBase();
     // Ejecutamos el job
     await jobs[jobName]();
     done();

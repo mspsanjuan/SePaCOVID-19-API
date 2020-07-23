@@ -4,7 +4,7 @@ import * as mongoose from 'mongoose';
 import * as cookieParser from 'cookie-parser';
 import Controller from './interfaces/controller.interface';
 import errorMiddleware from './middleware/error.middleware';
-import connections from './connections';
+// import connections from './connections';
 import { PORTS } from '../config.private';
 // import * as cors from 'cors';
 
@@ -23,7 +23,7 @@ class App {
     public listen() {
         this.app.listen(PORTS.main, () => {
             // tslint:disable-next-line:no-console
-            console.log(`\x1b[45mAPI corriendo en http://127.0.0.1/${PORTS.main}\x1b[0m`);
+            console.log(`\x1b[45mAPI corriendo en http://127.0.0.1:${PORTS.main}\x1b[0m`);
         });
     }
 
