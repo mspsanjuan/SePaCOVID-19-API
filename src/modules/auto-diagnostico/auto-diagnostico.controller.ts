@@ -17,7 +17,7 @@ import agendaService from '../../services/agenda.service';
 import turnoService from '../../services/turno.service';
 import seguimientoPacienteService from '../../services/seguimiento-paciente.service';
 
-export default class AutoDiagnostico implements Controller {
+export default class AutoDiagnosticoController implements Controller {
     public path = '/autodiagnostico';
     public router = Router();
     /**

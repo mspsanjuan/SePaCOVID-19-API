@@ -14,7 +14,7 @@ class App {
     constructor(controllers: Controller[]) {
         this.app = express();
 
-        connections.initializeDataBase();
+        // connections.initializeDataBase();
         this.initializeMiddlewares();
         this.initializeControllers(controllers);
         this.initializeErrorHandling();

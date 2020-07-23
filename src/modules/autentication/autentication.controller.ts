@@ -15,7 +15,7 @@ import HttpException from '../../exceptions/HttpException';
 import WrongCredentialsException from '../../exceptions/WrongCredentialsException';
 
 import authMiddleware from '../../middleware/auth.middleware';
-import { JWT } from '../../../config.private';
+import { SECRET_JWT } from '../../../config.private';
 
 class AuthenticationController implements Controller {
     public path = '/auth';
@@ -91,7 +91,7 @@ class AuthenticationController implements Controller {
 
     private createToken(user: IUser): TokenData {
         const expiresIn = 0; // 24 * 60 * 60; // Expira en un dia
-        const secret = JWT;
+        const secret = SECRET_JWT;
         const dataStoredInToken: DataStoredInToken = {
             id: user.id,
         };
